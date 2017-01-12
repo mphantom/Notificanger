@@ -24,6 +24,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.jakewharton:butterknife:8.1.0'
+    compile 'io.realm:android-adapters:1.4.0'
     compile project(":realmhelper")
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.1.0'
 }
