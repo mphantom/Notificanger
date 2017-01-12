@@ -1,9 +1,10 @@
-package com.mphantom.notificanger;
+package com.mphantom.notificanager;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
@@ -28,8 +29,8 @@ public class NotificationMonitor extends NotificationListenerService {
 //        filter.addAction("com.kpbird.nlsexample.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
 //        registerReceiver(nlservicereciver, filter);
         setNotification();
-        realm = Realm.getDefaultInstance();
 
+        Log.d(TAG, " on create the thread is " + Thread.currentThread().getId());
     }
 
     //设置通知栏常驻
@@ -50,14 +51,15 @@ public class NotificationMonitor extends NotificationListenerService {
     public void onDestroy() {
         super.onDestroy();
 //        unregisterReceiver(nlservicereciver);
-        realm.close();
     }
 
     @Override
-    public void onNotificationPosted(StatusBarNotification sbn) {
+    public void onNotificationPosted(final StatusBarNotification sbn) {
+        Log.d(TAG, " on posted the thread is " + Thread.currentThread().getId());
 //        sbn.getId();
         Log.i(TAG, "**********  onNotificationPosted");
         Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
+        Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         NotificationModel notifi = realm.createObject(NotificationModel.class);
         notifi.setId(sbn.getId());
@@ -66,45 +68,18 @@ public class NotificationMonitor extends NotificationListenerService {
         notifi.setOngoing(sbn.isOngoing());
         notifi.setClearable(sbn.isClearable());
         realm.commitTransaction();
-//        Intent i = new Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-//        i.putExtra("notification_event", "onNotificationPosted :" + sbn.getPackageName() + "\n");
-//        sendBroadcast(i);
-
+        realm.close();
+//        cancelAllNotifications();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cancelNotification(sbn.getKey());
+        }else{
+            cancelNotification(sbn.getPackageName(),sbn.getTag(),sbn.getId());
+        }
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         Log.i(TAG, "********** onNOtificationRemoved");
         Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
-//        Intent i = new Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-//        i.putExtra("notification_event", "onNotificationRemoved :" + sbn.getPackageName() + "\n");
-//
-//        sendBroadcast(i);
     }
-
-//    class NLServiceReceiver extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            if (intent.getStringExtra("command").equals("clearall")) {
-//                NotificationMonitor.this.cancelAllNotifications();
-//            } else if (intent.getStringExtra("command").equals("list")) {
-//                Intent i1 = new Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-//                i1.putExtra("notification_event", "=====================");
-//                sendBroadcast(i1);
-//                int i = 1;
-//                for (StatusBarNotification sbn : NotificationMonitor.this.getActiveNotifications()) {
-//                    Intent i2 = new Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-//                    i2.putExtra("notification_event", i + " " + sbn.getPackageName() + "\n");
-//                    sendBroadcast(i2);
-//                    i++;
-//                }
-//                Intent i3 = new Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-//                i3.putExtra("notification_event", "===== Notification List ====");
-//                sendBroadcast(i3);
-//
-//            }
-//
-//        }
-//    }
 }

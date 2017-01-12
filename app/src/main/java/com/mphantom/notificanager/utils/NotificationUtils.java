@@ -1,4 +1,4 @@
-package com.mphantom.notificanger.utils;
+package com.mphantom.notificanager.utils;
 
 import android.content.ComponentName;
 import android.content.Context;
