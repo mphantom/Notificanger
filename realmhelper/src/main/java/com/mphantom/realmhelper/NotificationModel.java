@@ -9,6 +9,10 @@ import io.realm.RealmObject;
 public class NotificationModel extends RealmObject {
 
     private int id;
+    private String title;
+    private String subText;
+    private String text;
+    private String infoText;
     private String packageName;
     private long postTime;
     private boolean clearable;
@@ -28,6 +32,38 @@ public class NotificationModel extends RealmObject {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubText() {
+        return subText;
+    }
+
+    public void setSubText(String subText) {
+        this.subText = subText;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getInfoText() {
+        return infoText;
+    }
+
+    public void setInfoText(String infoText) {
+        this.infoText = infoText;
     }
 
     public long getPostTime() {

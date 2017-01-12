@@ -59,6 +59,7 @@ public class NotificationMonitor extends NotificationListenerService {
 //        sbn.getId();
         Log.i(TAG, "**********  onNotificationPosted");
         Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
+        Notification temp = sbn.getNotification();
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         NotificationModel notifi = realm.createObject(NotificationModel.class);
@@ -70,8 +71,7 @@ public class NotificationMonitor extends NotificationListenerService {
         realm.commitTransaction();
         realm.close();
         Log.d(TAG, "sbninfo==" + sbn.toString());
-        Log.d(TAG, "notifiyBundle==" + sbn.getNotification().extras.toString());
-//        cancelAllNotifications();
+        Log.d(TAG, "notifiyBundle==" + temp.extras.toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cancelNotification(sbn.getKey());
         } else {
