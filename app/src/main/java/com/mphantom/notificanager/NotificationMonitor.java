@@ -39,7 +39,7 @@ public class NotificationMonitor extends NotificationListenerService {
         Intent intent = new Intent(this, MainActivity.class);
         Notification notification = new Notification.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentText("返回")
+                .setContentText("打开影子")
                 .setOngoing(true)
                 .setContentIntent(PendingIntent.getActivity(this, 0, intent, 0))
                 .build();
@@ -69,11 +69,13 @@ public class NotificationMonitor extends NotificationListenerService {
         notifi.setClearable(sbn.isClearable());
         realm.commitTransaction();
         realm.close();
+        Log.d(TAG, "sbninfo==" + sbn.toString());
+        Log.d(TAG, "notifiyBundle==" + sbn.getNotification().extras.toString());
 //        cancelAllNotifications();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cancelNotification(sbn.getKey());
-        }else{
-            cancelNotification(sbn.getPackageName(),sbn.getTag(),sbn.getId());
+        } else {
+            cancelNotification(sbn.getPackageName(), sbn.getTag(), sbn.getId());
         }
     }
 

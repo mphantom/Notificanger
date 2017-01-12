@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mphantom.realmhelper.NotificationModel;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
@@ -29,9 +31,13 @@ public class NotifyAdapter extends RealmRecyclerViewAdapter<NotificationModel, N
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.tvPostTime.setText("消息时间："+getItem(position).getPostTime());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_post_time)
+        TextView tvPostTime;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
