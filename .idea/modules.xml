@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Notificanger.iml" filepath="$PROJECT_DIR$/Notificanger.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/realmhelper/realmhelper.iml" filepath="$PROJECT_DIR$/realmhelper/realmhelper.iml" />
     </modules>
   </component>
 </project>
