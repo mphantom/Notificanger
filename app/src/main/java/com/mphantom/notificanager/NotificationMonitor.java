@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
@@ -60,6 +61,7 @@ public class NotificationMonitor extends NotificationListenerService {
         Log.i(TAG, "**********  onNotificationPosted");
         Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
         Notification temp = sbn.getNotification();
+        Bundle bundle = temp.extras;
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         NotificationModel notifi = realm.createObject(NotificationModel.class);
@@ -68,10 +70,14 @@ public class NotificationMonitor extends NotificationListenerService {
         notifi.setPackageName(sbn.getPackageName());
         notifi.setOngoing(sbn.isOngoing());
         notifi.setClearable(sbn.isClearable());
+        notifi.setTitle(bundle.getString(Notification.EXTRA_TITLE));
+        notifi.setText(bundle.getString(Notification.EXTRA_TEXT));
+        notifi.setInfoText(bundle.getString(Notification.EXTRA_INFO_TEXT));
+        notifi.setSubText(bundle.getString(Notification.EXTRA_SUB_TEXT));
         realm.commitTransaction();
         realm.close();
         Log.d(TAG, "sbninfo==" + sbn.toString());
-        Log.d(TAG, "notifiyBundle==" + temp.extras.toString());
+        Log.d(TAG, "notifiyBundle==" + bundle.toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cancelNotification(sbn.getKey());
         } else {

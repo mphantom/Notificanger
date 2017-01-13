@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.mphantom.realmhelper.NotificationModel;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.OrderedRealmCollection;
@@ -20,6 +24,9 @@ import io.realm.RealmRecyclerViewAdapter;
  */
 
 public class NotifyAdapter extends RealmRecyclerViewAdapter<NotificationModel, NotifyAdapter.ViewHolder> {
+
+    private DateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
     public NotifyAdapter(@NonNull Context context, @Nullable OrderedRealmCollection data, boolean autoUpdate) {
         super(context, data, autoUpdate);
     }
@@ -31,12 +38,22 @@ public class NotifyAdapter extends RealmRecyclerViewAdapter<NotificationModel, N
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvPostTime.setText("消息时间："+getItem(position).getPostTime());
+        String postTime =sdf.format(new Date(getItem(position).getPostTime()));
+        holder.tvPostTime.setText(postTime);
+        holder.tvTitle.setText(getItem(position).getTitle());
+        holder.tvContent.setText(getItem(position).getText());
+        holder.tvContentInfo.setText(getItem(position).getInfoText());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_post_time)
         TextView tvPostTime;
+        @BindView(R.id.tv_content)
+        TextView tvContent;
+        @BindView(R.id.tv_contentInfo)
+        TextView tvContentInfo;
+        @BindView(R.id.tv_title)
+        TextView tvTitle;
 
         public ViewHolder(View itemView) {
             super(itemView);
