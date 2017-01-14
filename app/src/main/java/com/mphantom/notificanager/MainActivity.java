@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+
         RealmResults<NotificationModel> result = realm.where(NotificationModel.class)
                 .findAll();
         adapter = new NotifyAdapter(this, result, true);
