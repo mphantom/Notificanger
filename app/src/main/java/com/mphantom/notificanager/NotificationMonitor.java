@@ -12,6 +12,8 @@ import android.util.Log;
 
 import com.mphantom.realmhelper.NotificationModel;
 
+import java.util.ArrayList;
+
 import io.realm.Realm;
 
 /**
@@ -19,16 +21,11 @@ import io.realm.Realm;
  */
 public class NotificationMonitor extends NotificationListenerService {
     private String TAG = this.getClass().getSimpleName();
-    //    private NLServiceReceiver nlservicereciver;
     private Realm realm;
 
     @Override
     public void onCreate() {
         super.onCreate();
-//        nlservicereciver = new NLServiceReceiver();
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction("com.kpbird.nlsexample.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
-//        registerReceiver(nlservicereciver, filter);
         setNotification();
 
         Log.d(TAG, " on create the thread is " + Thread.currentThread().getId());
@@ -78,6 +75,12 @@ public class NotificationMonitor extends NotificationListenerService {
         realm.close();
         Log.d(TAG, "sbninfo==" + sbn.toString());
         Log.d(TAG, "notifiyBundle==" + bundle.toString());
+        if (!new ArrayList<>().contains(sbn.getPackageName()))
+            cancelNotification(sbn);
+
+    }
+
+    private void cancelNotification(StatusBarNotification sbn) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cancelNotification(sbn.getKey());
         } else {

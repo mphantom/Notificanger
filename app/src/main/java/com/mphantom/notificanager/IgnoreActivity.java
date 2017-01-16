@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.mphantom.notificanager.utils.Sharedutils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,18 @@ public class IgnoreActivity extends AppCompatActivity {
         context.startActivity(new Intent(context, IgnoreActivity.class));
     }
 
-    private List getApplist() {
+    @Override
+    protected void onDestroy() {
+        List<String> list = adapter.getIgnores();
+        StringBuffer sb = new StringBuffer();
+        for (String s : list) {
+            sb.append(s).append(":");
+        }
+        Sharedutils.getInstance(App.getInstance()).saveString("ignore", sb.toString());
+        super.onDestroy();
+    }
+
+    private List<AppInfo> getApplist() {
         List<AppInfo> appList = new ArrayList<>();
         PackageManager pm = getPackageManager();
         List<PackageInfo> packlist = pm.getInstalledPackages(0);
@@ -50,7 +63,6 @@ public class IgnoreActivity extends AppCompatActivity {
             appinfo.setPackageName(info.packageName);
             appList.add(appinfo);
             Log.d(TAG, "appinfo ==" + appinfo.toString());
-
 //            Resources res = getPackageManager().getResourcesForApplication("com.example.foo")
         }
         return appList;
