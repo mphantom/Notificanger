@@ -33,7 +33,6 @@ public class IgnoreActivity extends AppCompatActivity {
         rvApp.setLayoutManager(new LinearLayoutManager(this));
         adapter = new IgnoreAdapter(getApplist());
         rvApp.setAdapter(adapter);
-//        getApplist();
     }
 
     public static void start(Context context) {
@@ -63,7 +62,6 @@ public class IgnoreActivity extends AppCompatActivity {
             appinfo.setPackageName(info.packageName);
             appList.add(appinfo);
             Log.d(TAG, "appinfo ==" + appinfo.toString());
-//            Resources res = getPackageManager().getResourcesForApplication("com.example.foo")
         }
         return appList;
 

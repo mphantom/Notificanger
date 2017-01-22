@@ -13,6 +13,7 @@ import android.util.Log;
 import com.mphantom.realmhelper.NotificationModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 
@@ -21,13 +22,13 @@ import io.realm.Realm;
  */
 public class NotificationMonitor extends NotificationListenerService {
     private String TAG = this.getClass().getSimpleName();
-    private Realm realm;
+    private List<String> ignores;
 
     @Override
     public void onCreate() {
         super.onCreate();
         setNotification();
-
+        ignores = new ArrayList<>();
         Log.d(TAG, " on create the thread is " + Thread.currentThread().getId());
     }
 
@@ -48,13 +49,11 @@ public class NotificationMonitor extends NotificationListenerService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(nlservicereciver);
     }
 
     @Override
     public void onNotificationPosted(final StatusBarNotification sbn) {
         Log.d(TAG, " on posted the thread is " + Thread.currentThread().getId());
-//        sbn.getId();
         Log.i(TAG, "**********  onNotificationPosted");
         Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
         Notification temp = sbn.getNotification();
@@ -75,7 +74,7 @@ public class NotificationMonitor extends NotificationListenerService {
         realm.close();
         Log.d(TAG, "sbninfo==" + sbn.toString());
         Log.d(TAG, "notifiyBundle==" + bundle.toString());
-        if (!new ArrayList<>().contains(sbn.getPackageName()))
+        if (!ignores.contains(sbn.getPackageName()))
             cancelNotification(sbn);
 
     }
