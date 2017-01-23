@@ -18,11 +18,18 @@
         android:layout_alignParentBottom="true"
         android:text="add ignore" />
 
+    <Button
+        android:id="@+id/btnFilter"
+        android:text="filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_add_ignore" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btn_add_ignore"
+        android:layout_above="@id/btnFilter"
         android:layout_alignParentTop="true">
 
     </android.support.v7.widget.RecyclerView>

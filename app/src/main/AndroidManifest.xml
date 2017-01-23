@@ -30,7 +30,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".IgnoreActivity"></activity>
+        <activity android:name=".IgnoreActivity" />
+        <activity android:name=".FilterActivity"></activity>
     </application>
 
 </manifest>
