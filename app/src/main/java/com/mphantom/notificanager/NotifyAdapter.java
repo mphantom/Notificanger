@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -54,7 +55,13 @@ public class NotifyAdapter extends RealmRecyclerViewAdapter<NotificationModel, N
         }
         holder.tvPostTime.setText(postTime);
         holder.tvTitle.setText(getItem(position).getTitle());
-        holder.tvContent.setText(getItem(position).getText());
+        if (!TextUtils.isEmpty(getItem(position).getText())) {
+            holder.tvContent.setText(getItem(position).getText());
+        } else if (!TextUtils.isEmpty(getItem(position).getTickerText())) {
+            holder.tvContent.setText(getItem(position).getTickerText());
+        }else{
+            holder.tvContent.setText("");
+        }
         holder.tvContentInfo.setText(getItem(position).getInfoText());
     }
 

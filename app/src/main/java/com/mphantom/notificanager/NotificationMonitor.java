@@ -88,23 +88,23 @@ public class NotificationMonitor extends NotificationListenerService implements 
         notifi.setPackageName(sbn.getPackageName());
         notifi.setOngoing(sbn.isOngoing());
         notifi.setClearable(sbn.isClearable());
-        notifi.setTickerText(temp.tickerText.toString());
+        notifi.setTickerText(temp.tickerText != null ? temp.tickerText.toString() : "");
         notifi.setTitle(bundle.getString(Notification.EXTRA_TITLE));
         notifi.setText(bundle.getString(Notification.EXTRA_TEXT));
         notifi.setInfoText(bundle.getString(Notification.EXTRA_INFO_TEXT));
         notifi.setSubText(bundle.getString(Notification.EXTRA_SUB_TEXT));
         realm.commitTransaction();
         realm.close();
+        if (temp.contentIntent != null) {
+            Log.d(TAG, "pendingIntent is ==" + temp.contentIntent.toString());
+//            try {
+//                temp.contentIntent.send();
+//            } catch (PendingIntent.CanceledException e) {
+//                e.printStackTrace();
+//            }
+        }
         Log.d(TAG, "sbninfo==" + sbn.toString());
         Log.d(TAG, "notifiyBundle==" + bundle.toString());
-        if (ignores == null) {
-            Log.d(TAG, "the ignore is null");
-        } else {
-            Log.d(TAG, "the ignore is not null");
-        }
-        for (String s : ignores) {
-            Log.d(TAG, "the ignore is" + s);
-        }
         Log.d(TAG, "the receiver packageName is" + sbn.getPackageName());
         if (!ignores.contains(sbn.getPackageName()))
             cancelNotification(sbn);

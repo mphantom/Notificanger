@@ -56,9 +56,10 @@ public class MainActivity extends AppCompatActivity {
     void addIgnore(View view) {
         IgnoreActivity.start(this);
     }
-    @OnClick(R.id.btnFilter)
-    void filter(View view){
 
+    @OnClick(R.id.btnFilter)
+    void filter(View view) {
+        FilterActivity.start(this);
     }
 }
 
