@@ -4,9 +4,14 @@
     android:id="@+id/activity_ignore"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/pbWait"
+        android:layout_centerInParent="true"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
 </RelativeLayout>

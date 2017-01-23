@@ -28,13 +28,22 @@ public class Sharedutils {
 
     public static Sharedutils getInstance(Context context) {
         if (instance == null) {
-            instance = new Sharedutils(context);
+            instance = new Sharedutils(context.getApplicationContext());
         }
 
         return instance;
     }
 
+    public void addListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        settings.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public void removeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        settings.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
     public void saveLong(String key, long value) {
+
         this.apply(this.settings.edit().putLong(key, value));
     }
 

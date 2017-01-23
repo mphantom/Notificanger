@@ -85,6 +85,11 @@ public class IgnoreAdapter extends RecyclerView.Adapter<IgnoreAdapter.ViewHolder
         }
     }
 
+    public void updateDate(List<AppInfo> appInfos) {
+        this.appInfos = appInfos;
+        notifyDataSetChanged();
+    }
+
     public List<String> getIgnores() {
         return ignores;
     }

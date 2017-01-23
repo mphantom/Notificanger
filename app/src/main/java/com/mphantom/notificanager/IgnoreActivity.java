@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.mphantom.notificanager.utils.Sharedutils;
 
@@ -23,6 +25,9 @@ public class IgnoreActivity extends AppCompatActivity {
     @BindView(R.id.rv_app)
     RecyclerView rvApp;
 
+    @BindView(R.id.pbWait)
+    ContentLoadingProgressBar pbWait;
+
     IgnoreAdapter adapter;
 
     @Override
@@ -31,12 +36,19 @@ public class IgnoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ignore);
         ButterKnife.bind(this);
         rvApp.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new IgnoreAdapter(getApplist());
+        adapter = new IgnoreAdapter(new ArrayList<AppInfo>());
         rvApp.setAdapter(adapter);
     }
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, IgnoreActivity.class));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.updateDate(getApplist());
+        pbWait.setVisibility(View.GONE);
     }
 
     @Override

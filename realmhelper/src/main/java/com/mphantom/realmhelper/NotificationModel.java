@@ -13,6 +13,7 @@ public class NotificationModel extends RealmObject {
     private String subText;
     private String text;
     private String infoText;
+    private String tickerText;
     private String packageName;
     private long postTime;
     private boolean clearable;
@@ -88,5 +89,13 @@ public class NotificationModel extends RealmObject {
 
     public void setOngoing(boolean ongoing) {
         this.ongoing = ongoing;
+    }
+
+    public String getTickerText() {
+        return tickerText;
+    }
+
+    public void setTickerText(String tickerText) {
+        this.tickerText = tickerText;
     }
 }
