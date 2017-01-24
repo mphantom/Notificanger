@@ -4,53 +4,33 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.mphantom.notificanager.utils.Sharedutils;
 import com.mphantom.realmhelper.NotificationModel;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import io.realm.Realm;
 
 /**
  * Created by wushaorong on 16-10-25.
  */
-public class NotificationMonitor extends NotificationListenerService implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class NotificationMonitor extends NotificationListenerService {
     private String TAG = this.getClass().getSimpleName();
-    private List<String> ignores;
+    private NotificationUtil notificationUtil;
 
     @Override
     public void onCreate() {
         super.onCreate();
         setNotification();
-        ignores = new ArrayList<>();
-        String ignoreStr = Sharedutils.getInstance(this).getString("ignore");
-        if (!TextUtils.isEmpty(ignoreStr)) {
-            ignores = Arrays.asList(ignoreStr.split(":"));
-        }
-        Sharedutils.getInstance(this).addListener(this);
+        notificationUtil = new NotificationUtil(this);
+        Sharedutils.getInstance(this).addListener(notificationUtil);
         Log.d(TAG, " on create the thread is " + Thread.currentThread().getId());
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.d(TAG, "shared Preference change,key==" + key);
-        if ("ignore".equals(key)) {
-            String ignoreStr = sharedPreferences.getString("ignore", "");
-            if (!TextUtils.isEmpty(ignoreStr)) {
-                ignores = Arrays.asList(ignoreStr.split(":"));
-            }
-        }
-    }
 
     //设置通知栏常驻
     private void setNotification() {
@@ -69,7 +49,7 @@ public class NotificationMonitor extends NotificationListenerService implements 
 
     @Override
     public void onDestroy() {
-        Sharedutils.getInstance(this).removeListener(this);
+        Sharedutils.getInstance(this).removeListener(notificationUtil);
         super.onDestroy();
     }
 
@@ -78,23 +58,13 @@ public class NotificationMonitor extends NotificationListenerService implements 
         Log.d(TAG, " on posted the thread is " + Thread.currentThread().getId());
         Log.i(TAG, "**********  onNotificationPosted");
         Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
+
         Notification temp = sbn.getNotification();
         Bundle bundle = temp.extras;
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        NotificationModel notifi = realm.createObject(NotificationModel.class);
-        notifi.setId(sbn.getId());
-        notifi.setPostTime(sbn.getPostTime());
-        notifi.setPackageName(sbn.getPackageName());
-        notifi.setOngoing(sbn.isOngoing());
-        notifi.setClearable(sbn.isClearable());
-        notifi.setTickerText(temp.tickerText != null ? temp.tickerText.toString() : "");
-        notifi.setTitle(bundle.getString(Notification.EXTRA_TITLE));
-        notifi.setText(bundle.getString(Notification.EXTRA_TEXT));
-        notifi.setInfoText(bundle.getString(Notification.EXTRA_INFO_TEXT));
-        notifi.setSubText(bundle.getString(Notification.EXTRA_SUB_TEXT));
-        realm.commitTransaction();
-        realm.close();
+
+        Log.d(TAG, "sbninfo==" + sbn.toString());
+        Log.d(TAG, "notifiyBundle==" + bundle.toString());
+        Log.d(TAG, "the receiver packageName is" + sbn.getPackageName());
         if (temp.contentIntent != null) {
             Log.d(TAG, "pendingIntent is ==" + temp.contentIntent.toString());
 //            try {
@@ -103,11 +73,28 @@ public class NotificationMonitor extends NotificationListenerService implements 
 //                e.printStackTrace();
 //            }
         }
-        Log.d(TAG, "sbninfo==" + sbn.toString());
-        Log.d(TAG, "notifiyBundle==" + bundle.toString());
-        Log.d(TAG, "the receiver packageName is" + sbn.getPackageName());
-        if (!ignores.contains(sbn.getPackageName()))
+
+
+        if (!notificationUtil.getIgnores().contains(sbn.getPackageName()))
             cancelNotification(sbn);
+        else {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            NotificationModel notifi = realm.createObject(NotificationModel.class);
+            notifi.setId(sbn.getId());
+            notifi.setPostTime(sbn.getPostTime());
+            notifi.setPackageName(sbn.getPackageName());
+            notifi.setOngoing(sbn.isOngoing());
+            notifi.setClearable(sbn.isClearable());
+            notifi.setTickerText(temp.tickerText != null ? temp.tickerText.toString() : "");
+            notifi.setTitle(bundle.getString(Notification.EXTRA_TITLE));
+            notifi.setText(bundle.getString(Notification.EXTRA_TEXT));
+            notifi.setInfoText(bundle.getString(Notification.EXTRA_INFO_TEXT));
+            notifi.setSubText(bundle.getString(Notification.EXTRA_SUB_TEXT));
+            realm.commitTransaction();
+            realm.close();
+        }
+
 
     }
 

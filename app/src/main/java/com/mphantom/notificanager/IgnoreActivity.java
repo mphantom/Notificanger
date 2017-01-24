@@ -9,7 +9,6 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.mphantom.notificanager.utils.Sharedutils;
@@ -54,7 +53,7 @@ public class IgnoreActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         List<String> list = adapter.getIgnores();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String s : list) {
             sb.append(s).append(":");
         }
@@ -66,14 +65,12 @@ public class IgnoreActivity extends AppCompatActivity {
         List<AppInfo> appList = new ArrayList<>();
         PackageManager pm = getPackageManager();
         List<PackageInfo> packlist = pm.getInstalledPackages(0);
-        Log.d(TAG, "packlist size==" + packlist.size());
         for (PackageInfo info : packlist) {
             AppInfo appinfo = new AppInfo();
             appinfo.setAppName(info.applicationInfo.loadLabel(pm).toString());
             appinfo.setAppIcon(info.applicationInfo.loadIcon(pm));
             appinfo.setPackageName(info.packageName);
             appList.add(appinfo);
-            Log.d(TAG, "appinfo ==" + appinfo.toString());
         }
         return appList;
 
