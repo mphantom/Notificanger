@@ -2,6 +2,7 @@ package com.mphantom.notificanager;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.mphantom.realmhelper.RealmHelper;
 
 /**
@@ -20,5 +21,6 @@ public class App extends Application {
         super.onCreate();
         RealmHelper.init(this);
         instance = this;
+        Stetho.initializeWithDefaults(this);
     }
 }

@@ -73,11 +73,7 @@ public class NotificationMonitor extends NotificationListenerService {
 //                e.printStackTrace();
 //            }
         }
-
-
-        if (!notificationUtil.getIgnores().contains(sbn.getPackageName()))
-            cancelNotification(sbn);
-        else {
+        if (!sbn.isOngoing()) {
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
             NotificationModel notifi = realm.createObject(NotificationModel.class);
@@ -93,9 +89,9 @@ public class NotificationMonitor extends NotificationListenerService {
             notifi.setSubText(bundle.getString(Notification.EXTRA_SUB_TEXT));
             realm.commitTransaction();
             realm.close();
+            if (!notificationUtil.getIgnores().contains(sbn.getPackageName()))
+                cancelNotification(sbn);
         }
-
-
     }
 
     private void cancelNotification(StatusBarNotification sbn) {
