@@ -3,6 +3,7 @@ package com.mphantom.notificanager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recyclerView)
@@ -38,9 +40,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-
         RealmResults<NotificationModel> result = realm.where(NotificationModel.class)
-                .findAll();
+                .findAllSorted("postTime", Sort.DESCENDING);
         adapter = new NotifyAdapter(this, result, true);
         rvNotify.setAdapter(adapter);
         rvNotify.setLayoutManager(new LinearLayoutManager(this));
