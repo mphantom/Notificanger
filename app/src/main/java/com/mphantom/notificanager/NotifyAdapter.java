@@ -33,6 +33,8 @@ public class NotifyAdapter extends RealmRecyclerViewAdapter<NotificationModel, N
 
     private DateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     private PackageManager pm;
+    private OnRecyclerViewListener onClickListener;
+
 
     public NotifyAdapter(@NonNull Context context, @Nullable OrderedRealmCollection data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -45,7 +47,7 @@ public class NotifyAdapter extends RealmRecyclerViewAdapter<NotificationModel, N
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         String postTime = sdf.format(new Date(getItem(position).getPostTime()));
         try {
             PackageInfo info = pm.getPackageInfo(getItem(position).getPackageName(), GET_META_DATA);
@@ -59,10 +61,22 @@ public class NotifyAdapter extends RealmRecyclerViewAdapter<NotificationModel, N
             holder.tvContent.setText(getItem(position).getText());
         } else if (!TextUtils.isEmpty(getItem(position).getTickerText())) {
             holder.tvContent.setText(getItem(position).getTickerText());
-        }else{
+        } else {
             holder.tvContent.setText("");
         }
         holder.tvContentInfo.setText(getItem(position).getInfoText());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener != null) {
+                    onClickListener.OnItemClick(holder.itemView, position);
+                }
+            }
+        });
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewListener listener) {
+        this.onClickListener = listener;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -82,4 +96,5 @@ public class NotifyAdapter extends RealmRecyclerViewAdapter<NotificationModel, N
             ButterKnife.bind(this, itemView);
         }
     }
+
 }

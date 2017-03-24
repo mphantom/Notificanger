@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.kongqw.myapplication.MainActivity">
+    <item
+        android:id="@+id/menu_add"
+        android:icon="@drawable/menu_action_add"
+        android:orderInCategory="100"
+        android:title="添加"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+</menu>

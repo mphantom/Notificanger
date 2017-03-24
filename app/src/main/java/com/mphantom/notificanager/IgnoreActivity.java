@@ -2,8 +2,6 @@ package com.mphantom.notificanager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.mphantom.notificanager.utils.AppInfoUtil;
 import com.mphantom.notificanager.utils.Sharedutils;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class IgnoreActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.updateDate(getApplist());
+        adapter.updateDate(AppInfoUtil.getAllAppList(this));
         pbWait.setVisibility(View.GONE);
     }
 
@@ -61,18 +60,5 @@ public class IgnoreActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private List<AppInfo> getApplist() {
-        List<AppInfo> appList = new ArrayList<>();
-        PackageManager pm = getPackageManager();
-        List<PackageInfo> packlist = pm.getInstalledPackages(0);
-        for (PackageInfo info : packlist) {
-            AppInfo appinfo = new AppInfo();
-            appinfo.setAppName(info.applicationInfo.loadLabel(pm).toString());
-            appinfo.setAppIcon(info.applicationInfo.loadIcon(pm));
-            appinfo.setPackageName(info.packageName);
-            appList.add(appinfo);
-        }
-        return appList;
 
-    }
 }

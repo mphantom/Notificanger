@@ -9,23 +9,7 @@
         android:id="@+id/iv_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginRight="10dp"/>
-
-
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/iv_image"
-        android:layout_toRightOf="@id/iv_image" />
-
-    <TextView
-        android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:layout_alignBottom="@id/iv_image"
-        android:layout_toRightOf="@id/iv_image" />
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:id="@+id/tv_post_time"
@@ -35,12 +19,30 @@
         android:layout_alignTop="@id/iv_image" />
 
     <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_image"
+        android:layout_toLeftOf="@id/tv_post_time"
+        android:layout_toRightOf="@id/iv_image"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/iv_image"
+        android:layout_toRightOf="@id/iv_image"
+        android:singleLine="true" />
+
+
+    <TextView
         android:id="@+id/tv_contentInfo"
         android:layout_width="wrap_content"
-        android:singleLine="true"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/iv_image"
         android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@id/iv_image" />
+        android:layout_toRightOf="@id/iv_image"
+        android:singleLine="true" />
 
 </RelativeLayout>
