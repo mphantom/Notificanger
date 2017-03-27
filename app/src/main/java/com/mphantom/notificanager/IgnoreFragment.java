@@ -54,11 +54,16 @@ public class IgnoreFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        adapter = new IgnoreAdapter(new ArrayList<AppInfo>());
+        rvIgnores.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvIgnores.setAdapter(adapter);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        rvIgnores.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new IgnoreAdapter(new ArrayList<AppInfo>());
-        rvIgnores.setAdapter(adapter);
         String strIgnores = Sharedutils.getInstance(App.getInstance()).getString("ignore");
         ArrayList<String> ignores = new ArrayList<>(Arrays.asList(strIgnores.split(":")));
         adapter.updateDate(AppInfoUtil.getAppListWithPackageName(getContext(), ignores));

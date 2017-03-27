@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bnvTab;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private boolean init;
 
     private int currentFragment;
 
@@ -103,7 +104,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        changeCurrentFragment(NotificationFragment.newInstance());
+        if (!init) {
+            changeCurrentFragment(NotificationFragment.newInstance());
+            init = true;
+        }
     }
 
     @Override
