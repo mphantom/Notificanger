@@ -20,16 +20,16 @@
             android:background="?attr/colorPrimary"
             android:fitsSystemWindows="true"
             android:minHeight="?attr/actionBarSize"
-            app:contentInsetEnd="0dp"
-            app:contentInsetLeft="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetStart="0dp"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:paddingEnd="0dp"
-            app:paddingStart="0dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:titleMargin="0dp" />
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        <!--app:contentInsetEnd="0dp"-->
+        <!--app:contentInsetLeft="0dp"-->
+        <!--app:contentInsetRight="0dp"-->
+        <!--app:contentInsetStart="0dp"-->
+        <!--app:paddingEnd="0dp"-->
+        <!--app:paddingStart="0dp"-->
+        <!--app:titleMargin="0dp" />-->
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout

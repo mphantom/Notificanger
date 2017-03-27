@@ -75,6 +75,17 @@ public class NotificationFragment extends Fragment implements OnRecyclerViewList
 
     @Override
     public void OnItemClick(View view, int position) {
-        AppInfoUtil.startApplicationWithPackageName(getContext(), adapter.getItem(position).getPackageName());
+//        String intentDescription = adapter.getItem(position).getIntentUri();
+//        if (!TextUtils.isEmpty(intentDescription)) {
+//            try {
+//                Intent intent = Intent.parseUri(intentDescription, 0);
+//                startActivity(intent);
+//            } catch (URISyntaxException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+        AppInfoUtil.startApplicationWithPackageName(getContext(),
+                adapter.getItem(position).getPackageName());
+//        }
     }
 }

@@ -23,11 +23,14 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(":realmhelper")
     compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.uphyca:stetho_realm:2.0.0'
     compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'com.android.support:design:25.3.0'
     compile 'com.jakewharton:butterknife:8.1.0'
     compile 'io.realm:android-adapters:1.4.0'
     compile 'com.facebook.stetho:stetho:1.4.2'
     compile 'com.android.support:support-v4:25.3.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.0'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.1.0'
 }

@@ -53,6 +53,7 @@ public class IgnoreFragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onStart() {
         super.onStart();

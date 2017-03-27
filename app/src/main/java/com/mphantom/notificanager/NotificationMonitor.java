@@ -72,6 +72,21 @@ public class NotificationMonitor extends NotificationListenerService {
 //            } catch (PendingIntent.CanceledException e) {
 //                e.printStackTrace();
 //            }
+//            try {
+//                Method getIntent = PendingIntent.class.getDeclaredMethod("getIntent");
+//                Intent intent = (Intent) getIntent.invoke(temp.contentIntent);
+////                notifi.setIntentUri(intent.toUri(0));
+//                Log.d(TAG, "the intent info is " + intent.toUri(0));
+//            } catch (NoSuchMethodException e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "the error is NoSuchMethodException");
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "the error is IllegalAccessException");
+//            } catch (InvocationTargetException e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "the error is InvocationTargetException");
+//            }
         }
         if (!sbn.isOngoing()) {
             Realm realm = Realm.getDefaultInstance();
@@ -81,7 +96,7 @@ public class NotificationMonitor extends NotificationListenerService {
             notifi.setPostTime(sbn.getPostTime());
             notifi.setPackageName(sbn.getPackageName());
             notifi.setOngoing(sbn.isOngoing());
-            notifi.setClearable(sbn.isClearable());
+            notifi.setClearEnable(sbn.isClearable());
             notifi.setTickerText(temp.tickerText != null ? temp.tickerText.toString() : "");
             notifi.setTitle(bundle.getString(Notification.EXTRA_TITLE));
             notifi.setText(bundle.getString(Notification.EXTRA_TEXT));

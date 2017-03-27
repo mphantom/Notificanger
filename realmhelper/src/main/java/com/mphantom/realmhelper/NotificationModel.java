@@ -16,8 +16,9 @@ public class NotificationModel extends RealmObject {
     private String tickerText;
     private String packageName;
     private long postTime;
-    private boolean clearable;
+    private boolean clearEnable;
     private boolean ongoing;
+    private String intentUri;
 
     public int getId() {
         return id;
@@ -75,12 +76,12 @@ public class NotificationModel extends RealmObject {
         this.postTime = postTime;
     }
 
-    public boolean isClearable() {
-        return clearable;
+    public boolean isClearEnable() {
+        return clearEnable;
     }
 
-    public void setClearable(boolean clearable) {
-        this.clearable = clearable;
+    public void setClearEnable(boolean clearable) {
+        this.clearEnable = clearable;
     }
 
     public boolean isOngoing() {
@@ -97,5 +98,13 @@ public class NotificationModel extends RealmObject {
 
     public void setTickerText(String tickerText) {
         this.tickerText = tickerText;
+    }
+
+    public String getIntentUri() {
+        return intentUri;
+    }
+
+    public void setIntentUri(String intentUri) {
+        this.intentUri = intentUri;
     }
 }

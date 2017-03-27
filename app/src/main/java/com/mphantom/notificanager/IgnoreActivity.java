@@ -20,6 +20,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class IgnoreActivity extends AppCompatActivity {
     private final String TAG = IgnoreActivity.class.getSimpleName();
@@ -33,6 +39,10 @@ public class IgnoreActivity extends AppCompatActivity {
 
 
     IgnoreAdapter adapter;
+
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, IgnoreActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +75,6 @@ public class IgnoreActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void start(Context context) {
-        context.startActivity(new Intent(context, IgnoreActivity.class));
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,7 +85,20 @@ public class IgnoreActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.updateDate(AppInfoUtil.getAllAppList(this));
-        pbWait.setVisibility(View.GONE);
+        Observable.create(new ObservableOnSubscribe<List<AppInfo>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<AppInfo>> e) throws Exception {
+                e.onNext(AppInfoUtil.getAllAppList(IgnoreActivity.this));
+            }
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<AppInfo>>() {
+                    @Override
+                    public void accept(List<AppInfo> appInfos) throws Exception {
+                        adapter.updateDate(appInfos);
+                        pbWait.setVisibility(View.GONE);
+                    }
+                });
+
     }
 }
