@@ -1,15 +1,21 @@
 package com.mphantom.notificanager;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mphantom.notificanager.utils.AppInfoUtil;
 import com.mphantom.realmhelper.NotificationModel;
+
+import java.net.URISyntaxException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,17 +81,25 @@ public class NotificationFragment extends Fragment implements OnRecyclerViewList
 
     @Override
     public void OnItemClick(View view, int position) {
-//        String intentDescription = adapter.getItem(position).getIntentUri();
-//        if (!TextUtils.isEmpty(intentDescription)) {
-//            try {
-//                Intent intent = Intent.parseUri(intentDescription, 0);
-//                startActivity(intent);
-//            } catch (URISyntaxException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-        AppInfoUtil.startApplicationWithPackageName(getContext(),
-                adapter.getItem(position).getPackageName());
-//        }
+        String intentDescription = adapter.getItem(position).getIntentUri();
+        if (!TextUtils.isEmpty(intentDescription) && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            Intent intent = null;
+            try {
+                intent = Intent.parseUri(intentDescription, 0);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            if (intent != null) {
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    getContext().sendBroadcast(intent);
+                }
+            }
+        } else {
+            AppInfoUtil.startApplicationWithPackageName(getContext(),
+                    adapter.getItem(position).getPackageName());
+        }
     }
 }
+

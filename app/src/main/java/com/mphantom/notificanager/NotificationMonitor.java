@@ -13,6 +13,9 @@ import android.util.Log;
 import com.mphantom.notificanager.utils.Sharedutils;
 import com.mphantom.realmhelper.NotificationModel;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import io.realm.Realm;
 
 /**
@@ -65,29 +68,6 @@ public class NotificationMonitor extends NotificationListenerService {
         Log.d(TAG, "sbninfo==" + sbn.toString());
         Log.d(TAG, "notifiyBundle==" + bundle.toString());
         Log.d(TAG, "the receiver packageName is" + sbn.getPackageName());
-//        if (temp.contentIntent != null) {
-//            Log.d(TAG, "pendingIntent is ==" + temp.contentIntent.toString());
-//            try {
-//                temp.contentIntent.send();
-//            } catch (PendingIntent.CanceledException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                Method getIntent = PendingIntent.class.getDeclaredMethod("getIntent");
-//                Intent intent = (Intent) getIntent.invoke(temp.contentIntent);
-////                notifi.setIntentUri(intent.toUri(0));
-//                Log.d(TAG, "the intent info is " + intent.toUri(0));
-//            } catch (NoSuchMethodException e) {
-//                e.printStackTrace();
-//                Log.e(TAG, "the error is NoSuchMethodException");
-//            } catch (IllegalAccessException e) {
-//                e.printStackTrace();
-//                Log.e(TAG, "the error is IllegalAccessException");
-//            } catch (InvocationTargetException e) {
-//                e.printStackTrace();
-//                Log.e(TAG, "the error is InvocationTargetException");
-//            }
-//        }
         if (!sbn.isOngoing()) {
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
@@ -102,16 +82,29 @@ public class NotificationMonitor extends NotificationListenerService {
             notifi.setText(bundle.getString(Notification.EXTRA_TEXT));
             notifi.setInfoText(bundle.getString(Notification.EXTRA_INFO_TEXT));
             notifi.setSubText(bundle.getString(Notification.EXTRA_SUB_TEXT));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                    && temp.contentIntent != null) {
+                Log.d(TAG, "pendingIntent is ==" + temp.contentIntent.toString());
+                try {
+                    Method getIntent = PendingIntent.class.getDeclaredMethod("getIntent");
+                    Intent intent = (Intent) getIntent.invoke(temp.contentIntent);
+                    notifi.setIntentUri(intent.toUri(0));
+                    Log.d(TAG, "the intent info is " + intent.toUri(0));
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "the error is NoSuchMethodException");
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "the error is IllegalAccessException");
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "the error is InvocationTargetException");
+                }
+            }
             realm.commitTransaction();
             realm.close();
             if (!notificationUtil.getIgnores().contains(sbn.getPackageName()))
                 cancelNotification(sbn);
-//            try {
-//                temp.contentIntent.send();
-//            } catch (PendingIntent.CanceledException e) {
-//                e.printStackTrace();
-//                Log.e(TAG,"the intent is finish");
-//            }
         }
     }
 
