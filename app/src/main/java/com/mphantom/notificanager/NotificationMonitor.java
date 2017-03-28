@@ -65,8 +65,8 @@ public class NotificationMonitor extends NotificationListenerService {
         Log.d(TAG, "sbninfo==" + sbn.toString());
         Log.d(TAG, "notifiyBundle==" + bundle.toString());
         Log.d(TAG, "the receiver packageName is" + sbn.getPackageName());
-        if (temp.contentIntent != null) {
-            Log.d(TAG, "pendingIntent is ==" + temp.contentIntent.toString());
+//        if (temp.contentIntent != null) {
+//            Log.d(TAG, "pendingIntent is ==" + temp.contentIntent.toString());
 //            try {
 //                temp.contentIntent.send();
 //            } catch (PendingIntent.CanceledException e) {
@@ -87,7 +87,7 @@ public class NotificationMonitor extends NotificationListenerService {
 //                e.printStackTrace();
 //                Log.e(TAG, "the error is InvocationTargetException");
 //            }
-        }
+//        }
         if (!sbn.isOngoing()) {
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
@@ -106,6 +106,12 @@ public class NotificationMonitor extends NotificationListenerService {
             realm.close();
             if (!notificationUtil.getIgnores().contains(sbn.getPackageName()))
                 cancelNotification(sbn);
+//            try {
+//                temp.contentIntent.send();
+//            } catch (PendingIntent.CanceledException e) {
+//                e.printStackTrace();
+//                Log.e(TAG,"the intent is finish");
+//            }
         }
     }
 

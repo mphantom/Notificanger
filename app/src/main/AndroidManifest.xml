@@ -3,8 +3,8 @@
     package="com.mphantom.notificanager">
 
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
-
-        <!--android:debuggable="false"-->
+    <uses-permission android:name="android.permission.GET_INTENT_SENDER_INTENT" />
+    <!--android:debuggable="false"-->
     <application
         android:name=".App"
         android:allowBackup="false"
