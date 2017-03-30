@@ -1,6 +1,7 @@
 package com.mphantom.notificanager;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class IgnoreAdapter extends RecyclerView.Adapter<IgnoreAdapter.ViewHolder
     public IgnoreAdapter(List<AppInfo> appInfos) {
         this.appInfos = appInfos;
         String str = Sharedutils.getInstance(App.getInstance()).getString("ignore");
-        if ("".equals(str)) {
+        if (TextUtils.isEmpty(str)) {
             ignores = new ArrayList<>();
         } else {
             ignores = new ArrayList<>(Arrays.asList(str.split(":")));

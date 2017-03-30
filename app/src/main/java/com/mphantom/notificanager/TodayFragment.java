@@ -16,6 +16,8 @@ import com.mphantom.notificanager.utils.AppInfoUtil;
 import com.mphantom.realmhelper.NotificationModel;
 
 import java.net.URISyntaxException;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,26 +25,22 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-
 /**
- * Created by mphantom on 17-3-24.
+ * Created by mphantom on 2017/3/30.
  */
-public class NotificationFragment extends Fragment implements OnRecyclerViewListener {
+
+public class TodayFragment extends Fragment implements OnRecyclerViewListener {
     @BindView(R.id.recyclerView)
     RecyclerView rvNotify;
 
     NotifyAdapter adapter;
     Realm realm;
 
-    public NotificationFragment() {
+    public TodayFragment() {
     }
 
-//    public String getTagString() {
-//        return this.getClass().getSimpleName();
-//    }
-
-    public static NotificationFragment newInstance() {
-        NotificationFragment fragment = new NotificationFragment();
+    public static TodayFragment newInstance() {
+        TodayFragment fragment = new TodayFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -71,7 +69,15 @@ public class NotificationFragment extends Fragment implements OnRecyclerViewList
     @Override
     public void onResume() {
         super.onResume();
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         RealmResults<NotificationModel> result = realm.where(NotificationModel.class)
+                .greaterThan("postTime", calendar.getTimeInMillis())
                 .findAllSorted("postTime", Sort.DESCENDING);
         adapter = new NotifyAdapter(getContext(), result, true);
         adapter.setOnItemClickListener(this);
@@ -106,4 +112,3 @@ public class NotificationFragment extends Fragment implements OnRecyclerViewList
         }
     }
 }
-

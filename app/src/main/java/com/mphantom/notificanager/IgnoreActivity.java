@@ -36,8 +36,6 @@ public class IgnoreActivity extends AppCompatActivity {
     ContentLoadingProgressBar pbWait;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-
     IgnoreAdapter adapter;
 
     public static void start(Context context) {
@@ -97,6 +95,7 @@ public class IgnoreActivity extends AppCompatActivity {
                     public void accept(List<AppInfo> appInfos) throws Exception {
                         adapter.updateDate(appInfos);
                         pbWait.setVisibility(View.GONE);
+                        rvApp.setVisibility(View.VISIBLE);
                     }
                 });
 

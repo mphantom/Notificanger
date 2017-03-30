@@ -47,11 +47,12 @@ public class MainActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.menu_today:
                                 currentFragment = 0;
-                                changeCurrentFragment(NotificationFragment.newInstance());
+                                changeCurrentFragment(TodayFragment.newInstance());
                                 invalidateOptionsMenu();
                                 break;
                             case R.id.menu_all:
                                 currentFragment = 1;
+                                changeCurrentFragment(NotificationFragment.newInstance());
                                 invalidateOptionsMenu();
                                 break;
                             case R.id.menu_ignore:

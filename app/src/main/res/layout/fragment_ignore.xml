@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin" />
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:visibility="gone" />
 
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/pbWait"
@@ -17,4 +18,13 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="你还未添加任何的过滤设置,\n通过右上角点击添加"
+        android:visibility="gone" />
 </RelativeLayout>
