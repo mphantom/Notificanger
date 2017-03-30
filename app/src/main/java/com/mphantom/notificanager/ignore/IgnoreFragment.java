@@ -1,4 +1,4 @@
-package com.mphantom.notificanager;
+package com.mphantom.notificanager.ignore;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mphantom.notificanager.App;
+import com.mphantom.notificanager.AppInfo;
+import com.mphantom.notificanager.R;
 import com.mphantom.notificanager.utils.AppInfoUtil;
 import com.mphantom.notificanager.utils.Sharedutils;
 

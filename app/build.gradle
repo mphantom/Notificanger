@@ -7,14 +7,38 @@ android {
         applicationId "com.mphantom.notificanager"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 3
-        versionName "1.0.2"
-//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 4
+        versionName "1.0.3"
+    }
+
+    signingConfigs {
+        myConfig {
+            storeFile file("../andkey.jks")
+            storePassword rootProject.ext.signingConfig.storePassword
+            keyAlias rootProject.ext.signingConfig.keyAlias
+            keyPassword rootProject.ext.signingConfig.keyPassword
+        }
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.myConfig
+        }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.myConfig
+//            def today = new Date()
+//            if (variant.buildType.getName().equals("release")) {
+//                println "Change output apk name"
+//                variant.outputs.each { output ->
+//                    output.outputFile = new File(
+//                            output.outputFile.parent,
+//                            output.outputFile.name.replace(".apk", "-" + defaultConfig.versionName + "-" + today.format('yyyyMMdd') + ".apk"))
+//                }
+//            }
         }
     }
 }

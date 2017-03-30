@@ -13,6 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mphantom.notificanager.all.NotificationFragment;
+import com.mphantom.notificanager.ignore.IgnoreActivity;
+import com.mphantom.notificanager.ignore.IgnoreFragment;
+import com.mphantom.notificanager.today.TodayFragment;
 import com.mphantom.notificanager.utils.NotificationUtils;
 
 import butterknife.BindView;
@@ -106,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!init) {
-            changeCurrentFragment(NotificationFragment.newInstance());
+            changeCurrentFragment(TodayFragment.newInstance());
             init = true;
         }
     }

@@ -4,7 +4,7 @@
     android:id="@+id/activity_filter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mphantom.notificanager.FilterActivity">
+    tools:context="com.mphantom.notificanager.ignore.FilterActivity">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

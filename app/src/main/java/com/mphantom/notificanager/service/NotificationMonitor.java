@@ -1,4 +1,4 @@
-package com.mphantom.notificanager;
+package com.mphantom.notificanager.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -10,6 +10,9 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
+import com.mphantom.notificanager.MainActivity;
+import com.mphantom.notificanager.NotificationUtil;
+import com.mphantom.notificanager.R;
 import com.mphantom.notificanager.utils.Sharedutils;
 import com.mphantom.realmhelper.NotificationModel;
 

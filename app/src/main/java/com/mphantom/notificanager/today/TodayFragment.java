@@ -1,4 +1,4 @@
-package com.mphantom.notificanager;
+package com.mphantom.notificanager.today;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -11,7 +11,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.mphantom.notificanager.OnRecyclerViewListener;
+import com.mphantom.notificanager.R;
 import com.mphantom.notificanager.utils.AppInfoUtil;
 import com.mphantom.realmhelper.NotificationModel;
 
@@ -32,8 +35,9 @@ import io.realm.Sort;
 public class TodayFragment extends Fragment implements OnRecyclerViewListener {
     @BindView(R.id.recyclerView)
     RecyclerView rvNotify;
-
-    NotifyAdapter adapter;
+    @BindView(R.id.tv_tip)
+    TextView tvTip;
+    TodayAdapter adapter;
     Realm realm;
 
     public TodayFragment() {
@@ -55,7 +59,7 @@ public class TodayFragment extends Fragment implements OnRecyclerViewListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notification, container, false);
+        View view = inflater.inflate(R.layout.fragment_today, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -79,10 +83,17 @@ public class TodayFragment extends Fragment implements OnRecyclerViewListener {
         RealmResults<NotificationModel> result = realm.where(NotificationModel.class)
                 .greaterThan("postTime", calendar.getTimeInMillis())
                 .findAllSorted("postTime", Sort.DESCENDING);
-        adapter = new NotifyAdapter(getContext(), result, true);
+        adapter = new TodayAdapter(getContext(), result, true);
         adapter.setOnItemClickListener(this);
-        rvNotify.setAdapter(adapter);
         rvNotify.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvNotify.setAdapter(adapter);
+        if (result.size() > 0) {
+            rvNotify.setVisibility(View.VISIBLE);
+            tvTip.setVisibility(View.GONE);
+        } else {
+            tvTip.setVisibility(View.VISIBLE);
+            rvNotify.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -101,7 +112,6 @@ public class TodayFragment extends Fragment implements OnRecyclerViewListener {
                 } catch (ActivityNotFoundException e) {
                     getContext().sendBroadcast(intent);
                 } catch (SecurityException e) {
-//                    e.printStackTrace();
                     AppInfoUtil.startApplicationWithPackageName(getContext(),
                             adapter.getItem(position).getPackageName());
                 }

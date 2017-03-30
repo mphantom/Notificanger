@@ -1,4 +1,4 @@
-package com.mphantom.notificanager;
+package com.mphantom.notificanager.today;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mphantom.notificanager.OnRecyclerViewListener;
+import com.mphantom.notificanager.R;
 import com.mphantom.realmhelper.NotificationModel;
 
 import java.text.DateFormat;
@@ -29,21 +31,21 @@ import static android.content.pm.PackageManager.GET_META_DATA;
  * Created by mphantom on 17/1/12.
  */
 
-public class NotifyAdapter extends RealmRecyclerViewAdapter<NotificationModel, NotifyAdapter.ViewHolder> {
+public class TodayAdapter extends RealmRecyclerViewAdapter<NotificationModel, TodayAdapter.ViewHolder> {
 
     private DateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     private PackageManager pm;
     private OnRecyclerViewListener onClickListener;
 
 
-    public NotifyAdapter(@NonNull Context context, @Nullable OrderedRealmCollection data, boolean autoUpdate) {
+    public TodayAdapter(@NonNull Context context, @Nullable OrderedRealmCollection data, boolean autoUpdate) {
         super(context, data, autoUpdate);
         pm = context.getPackageManager();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflater.inflate(R.layout.item_notify, parent, false));
+        return new ViewHolder(inflater.inflate(R.layout.item_today, parent, false));
     }
 
     @Override

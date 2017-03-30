@@ -1,4 +1,4 @@
-package com.mphantom.notificanager;
+package com.mphantom.notificanager.ignore;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -10,6 +10,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mphantom.notificanager.App;
+import com.mphantom.notificanager.AppInfo;
+import com.mphantom.notificanager.R;
 import com.mphantom.notificanager.utils.Sharedutils;
 
 import java.util.ArrayList;

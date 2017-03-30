@@ -1,4 +1,4 @@
-package com.mphantom.notificanager;
+package com.mphantom.notificanager.all;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mphantom.notificanager.OnRecyclerViewListener;
+import com.mphantom.notificanager.R;
 import com.mphantom.notificanager.utils.AppInfoUtil;
 import com.mphantom.realmhelper.NotificationModel;
 
@@ -30,10 +32,8 @@ import io.realm.Sort;
 public class NotificationFragment extends Fragment implements OnRecyclerViewListener {
     @BindView(R.id.recyclerView)
     RecyclerView rvNotify;
-
     NotifyAdapter adapter;
     Realm realm;
-
     public NotificationFragment() {
     }
 

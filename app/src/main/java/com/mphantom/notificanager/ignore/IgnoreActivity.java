@@ -1,4 +1,4 @@
-package com.mphantom.notificanager;
+package com.mphantom.notificanager.ignore;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.mphantom.notificanager.App;
+import com.mphantom.notificanager.AppInfo;
+import com.mphantom.notificanager.R;
 import com.mphantom.notificanager.utils.AppInfoUtil;
 import com.mphantom.notificanager.utils.Sharedutils;
 
