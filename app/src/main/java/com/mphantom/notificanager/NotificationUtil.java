@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.mphantom.notificanager.utils.Sharedutils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,20 +17,22 @@ import static android.content.ContentValues.TAG;
  */
 
 public class NotificationUtil implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private List<String> ignores = new ArrayList<>();
-    private List<String> filters = new ArrayList<>();
-//    private Context context;
+    private List<String> ignores;
+    private List<String> filters;
 
     public NotificationUtil(Context context) {
-//        this.context = context;
         String ignoreStr = Sharedutils.getInstance(context).getString("ignore");
         if (!TextUtils.isEmpty(ignoreStr)) {
             ignores = Arrays.asList(ignoreStr.split(":"));
+        } else {
+            ignores = null;
         }
 
         String filterStr = Sharedutils.getInstance(context).getString("filter");
         if (!TextUtils.isEmpty(filterStr)) {
             filters = Arrays.asList(filterStr.split(":"));
+        } else {
+            filters = null;
         }
 
     }
@@ -51,6 +52,8 @@ public class NotificationUtil implements SharedPreferences.OnSharedPreferenceCha
             String ignoreStr = sharedPreferences.getString("ignore", "");
             if (!TextUtils.isEmpty(ignoreStr)) {
                 ignores = Arrays.asList(ignoreStr.split(":"));
+            } else {
+                ignores = null;
             }
         }
     }

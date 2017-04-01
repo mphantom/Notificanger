@@ -9,7 +9,7 @@ import io.realm.Realm;
  */
 
 public class RealmHelper {
-    public static void init(Context context){
+    public static void init(Context context) {
         Realm.init(context);
     }
 }

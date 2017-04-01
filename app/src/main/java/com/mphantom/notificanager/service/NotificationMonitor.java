@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
@@ -20,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import io.realm.Realm;
+import io.realm.RealmModel;
 
 /**
  * Created by wushaorong on 16-10-25.
@@ -27,6 +30,16 @@ import io.realm.Realm;
 public class NotificationMonitor extends NotificationListenerService {
     private String TAG = this.getClass().getSimpleName();
     private NotificationUtil notificationUtil;
+    private Realm realm;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            realm.beginTransaction();
+            realm.insert((RealmModel) msg.obj);
+            realm.commitTransaction();
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -35,6 +48,7 @@ public class NotificationMonitor extends NotificationListenerService {
         notificationUtil = new NotificationUtil(this);
         Sharedutils.getInstance(this).addListener(notificationUtil);
         Log.d(TAG, " on create the thread is " + Thread.currentThread().getId());
+        realm = Realm.getDefaultInstance();
     }
 
 
@@ -56,6 +70,7 @@ public class NotificationMonitor extends NotificationListenerService {
     @Override
     public void onDestroy() {
         Sharedutils.getInstance(this).removeListener(notificationUtil);
+        realm.close();
         super.onDestroy();
     }
 
@@ -63,18 +78,14 @@ public class NotificationMonitor extends NotificationListenerService {
     public void onNotificationPosted(final StatusBarNotification sbn) {
         Log.d(TAG, " on posted the thread is " + Thread.currentThread().getId());
         Log.i(TAG, "**********  onNotificationPosted");
-        Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
-
         Notification temp = sbn.getNotification();
         Bundle bundle = temp.extras;
 
-        Log.d(TAG, "sbninfo==" + sbn.toString());
-        Log.d(TAG, "notifiyBundle==" + bundle.toString());
+        Log.d(TAG, "sbn info==" + sbn.toString());
+        Log.d(TAG, "notification Bundle==" + bundle.toString());
         Log.d(TAG, "the receiver packageName is" + sbn.getPackageName());
         if (!sbn.isOngoing()) {
-            Realm realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-            NotificationModel notifi = realm.createObject(NotificationModel.class);
+            NotificationModel notifi = new NotificationModel();
             notifi.setId(sbn.getId());
             notifi.setPostTime(sbn.getPostTime());
             notifi.setPackageName(sbn.getPackageName());
@@ -104,9 +115,11 @@ public class NotificationMonitor extends NotificationListenerService {
                     Log.e(TAG, "the error is InvocationTargetException");
                 }
             }
-            realm.commitTransaction();
-            realm.close();
-            if (!notificationUtil.getIgnores().contains(sbn.getPackageName()))
+            Message message = handler.obtainMessage();
+            message.obj = notifi;
+            handler.sendMessage(message);
+            if (notificationUtil.getIgnores() == null ||
+                    !notificationUtil.getIgnores().contains(sbn.getPackageName()))
                 cancelNotification(sbn);
         }
     }

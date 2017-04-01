@@ -97,6 +97,7 @@ public class IgnoreFragment extends Fragment {
                             adapter.updateDate(AppInfoUtil.getAppListWithPackageName(getContext(), list));
                             pbWait.setVisibility(View.GONE);
                             rvIgnores.setVisibility(View.VISIBLE);
+                            tvTip.setVisibility(View.GONE);
                         } else {
                             pbWait.setVisibility(View.GONE);
                             tvTip.setVisibility(View.VISIBLE);
